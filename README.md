@@ -1,20 +1,13 @@
 # Swarmfire Example
 
-This project demonstrates how to execute junit tests in a distributed way using *swarmfireJVM* by using docker swarm and maven.
+This project demonstrates how to execute junit tests in a distributed way using [swarmfire](https://github.com/Jotschi/swarmfire/tree/swarmfire).
 
-* TL,DR
-  * A new docker container is started which runs the JVM instead of forking a JVM on the host. This way junit tests can be distributed across multiple hosts.
+## Setup
 
-It is possible to execute junit tests in a multithreaded fashion using the forkcount parameter. Additionally the JVM can also be specified.
-Normally a new JVM will be forked when the reuseFork parameter is set to false and threadCount is set to 1.
-Instead of the host JVM a docker container will be spawned which will execute the test. The dockerJVM tool will spawn a new docker container.
+* Download and install swarmfire
+* Setup your [Docker Swarm](https://docs.docker.com/swarm/install-w-machine/)
+* Setup your [Docker Registry](https://github.com/docker/distribution/blob/master/docs/deploying.md)
 
-## Workflow
-
-* Run mvn with -Dmaven.repo.local=target/.m2
-* Invocation of dockerJVM -c build using the exec plugin in order to create a new test context image which contains .m2 files and classes
-* Invocation of surfire:test using dockerJVM for JVM parameter. This way a new docker container will be created and started
-
-## swarmfireJVM
-
-[SwarmfireJVM](https://github.com/Jotschi/swarmfire/tree/swarmfireJVM)
+```
+  docker run -d -p 5000:5000 --restart=always --name registry registry:2
+```
