@@ -6,7 +6,7 @@ This project demonstrates how to execute junit tests in a distributed way using 
 
 * Requirements:
 
-At least wwo hosts that run docker:
+At least two hosts that run docker:
 
 * HostA
 * HostB
