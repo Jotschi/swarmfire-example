@@ -11,7 +11,7 @@ At least two hosts that run docker:
 * HostA
 * HostB
 
-1. Start up a registry on *HostA*
+### Start up a registry on *HostA*
 
 Setup your [Docker Registry](https://github.com/docker/distribution/blob/master/docs/deploying.md)
 
@@ -19,7 +19,7 @@ Setup your [Docker Registry](https://github.com/docker/distribution/blob/master/
 $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 ```
 
-2. Create your swarm cluster id on *HostA*
+### Create your swarm cluster id on *HostA*
 
  More details can be found within the [Docker Swarm](https://docs.docker.com/swarm/install-w-machine/) documentation.
 
@@ -27,7 +27,7 @@ $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 $ docker run --rm swarm create
 ```
 
-3. Create swarm on *HostA*
+### Create swarm on *HostA*
 
 The token hash must match the previously generated container id. We choose the random strategy in order to randomly distribute test containers.
 
@@ -35,7 +35,7 @@ The token hash must match the previously generated container id. We choose the r
 $ docker run -d -p 3376:3376 -t swarm manage -H 0.0.0.0:3376 --strategy random token://0ac50ef75c9739f5bfeeaf00503d4e6e
 ```
 
-4.  Join the cluster for each docker host:
+###  Join the cluster for each docker host:
 
 ```
 $ docker run -d swarm join --addr=HostA:2375 token://0ac50ef75c9739f5bfeeaf00503d4e6e
@@ -44,7 +44,7 @@ $ docker run -d swarm join --addr=HostB:2375 token://0ac50ef75c9739f5bfeeaf00503
 
 Please note that these steps just briefly scratch the surface of docker swarm. The [docker swarm docs](https://docs.docker.com/swarm/install-w-machine/) contain much more information on how to setup a swarm and how to secure it properly.
 
-5. Install and configure swarmfire
+### Install and configure swarmfire
 
 Download and install [swarmfire](https://github.com/Jotschi/swarmfire)
 
@@ -82,6 +82,8 @@ Adapt *maven-surefire-plugin* configuration. The *jvm* parameter needs to point 
   </plugins>
 </build>
 ```
+
+### Run Test
 
 Lastly it is mandatory to run maven via:
 
