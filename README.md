@@ -88,7 +88,7 @@ Adapt *maven-surefire-plugin* configuration. The *jvm* parameter needs to point 
 Lastly it is mandatory to run maven via:
 
 ```
-mvn package -Dmaven.repo.local=target/.m2
+$ mvn package -Dmaven.repo.local=target/.m2
 ```
 
 This way the maven dependencies will be freshly downloaded into the target folder. This is important since the swarmfire tool will create a dedicated docker image which will include such dependencies.

@@ -1,6 +1,6 @@
 {
  "baseImageName": "jotschi/swarmfire",
- "contextImageName": "hydra.sky:5000/testcontext7",
+ "contextImageName": "hydra.sky:5000/testcontext8",
  "dockerswarm": "tcp://nexus.sky:3376",
  "command": ["java", "-jar"]
 }
