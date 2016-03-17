@@ -2,16 +2,11 @@
 
 This project demonstrates how to execute junit tests in a distributed way using [swarmfire](https://github.com/Jotschi/swarmfire).
 
-## Setup
+## Setup 
 
-* Requirements:
+This example shows how to setup the docker environment using docker-machine
 
-At least two hosts that run docker:
-
-* HostA
-* HostB
-
-### Start up a registry on *HostA*
+### Start up a registry
 
 Setup your [Docker Registry](https://github.com/docker/distribution/blob/master/docs/deploying.md)
 
@@ -21,25 +16,24 @@ $ docker run -d -p 5000:5000 --restart=always --name registry registry:2
 
 ### Create your swarm cluster id on *HostA*
 
- More details can be found within the [Docker Swarm](https://docs.docker.com/swarm/install-w-machine/) documentation.
+More details can be found within the [Docker Swarm](https://docs.docker.com/swarm/install-w-machine/) documentation.
 
 ```
-$ docker run --rm swarm create
-```
+docker-machine create -d virtualbox --engine-env DOCKER_TLS=no --engine-insecure-registry YOUR_REGISTRY_HOST:5000 manager
+docker-machine create -d virtualbox --engine-env DOCKER_TLS=no --engine-insecure-registry YOUR_REGISTRY_HOST:5000 agent1
+docker-machine create -d virtualbox --engine-env DOCKER_TLS=no --engine-insecure-registry YOUR_REGISTRY_HOST:5000 agent2
 
-### Create swarm on *HostA*
+docker -H tcp://$(docker-machine ip manager):2376 run --rm swarm create
 
-The token hash must match the previously generated container id. We choose the random strategy in order to randomly distribute test containers.
+# The token hash must match the previously generated container id. We choose the random strategy in order to randomly distribute test containers.
 
-```
-$ docker run -d -p 3376:3376 -t swarm manage -H 0.0.0.0:3376 --strategy random token://0ac50ef75c9739f5bfeeaf00503d4e6e
-```
+docker -H tcp://$(docker-machine ip manager):2376 run -d -p 3376:3376 -t swarm manage -H 0.0.0.0:3376  --strategy random  token://830700a5f0a5e5537077a2a61851652d
 
-###  Join the cluster for each docker host:
+#  Join the cluster for each docker host:
+docker -H tcp://$(docker-machine ip agent1):2376 run -d swarm join --addr=$(docker-machine ip agent1):2376 token://830700a5f0a5e5537077a2a61851652d
+docker -H tcp://$(docker-machine ip agent2):2376 run -d swarm join --addr=$(docker-machine ip agent2):2376 token://830700a5f0a5e5537077a2a61851652d
 
-```
-$ docker run -d swarm join --addr=HostA:2375 token://0ac50ef75c9739f5bfeeaf00503d4e6e
-$ docker run -d swarm join --addr=HostB:2375 token://0ac50ef75c9739f5bfeeaf00503d4e6e
+docker -H tcp://$(docker-machine ip manager):3376 ps
 ```
 
 Please note that these steps just briefly scratch the surface of docker swarm. The [docker swarm docs](https://docs.docker.com/swarm/install-w-machine/) contain much more information on how to setup a swarm and how to secure it properly.
