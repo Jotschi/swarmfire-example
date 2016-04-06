@@ -44,7 +44,7 @@ Download and install [swarmfire](https://github.com/Jotschi/swarmfire)
 
 This example assumes that you copy your swarmfire file to /usr/local/bin/swarmfire
 
-Create test specific *config.json* file next to you *pom.xml*
+Create test specific *swarmfire-config.json* file next to you *pom.xml*
 
 ```
 {

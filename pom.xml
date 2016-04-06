@@ -50,6 +50,25 @@
 					</includes>
 				</configuration>
 			</plugin>
+			<plugin>
+			 <groupId>org.codehaus.mojo</groupId>
+			 <artifactId>exec-maven-plugin</artifactId>
+			 <version>1.4.0</version>
+			 <executions>
+				 <execution>
+					 <goals>
+						 <goal>exec</goal>
+					 </goals>
+				 </execution>
+			 </executions>
+			 <configuration>
+					<executable>${swarmfire.path}</executable>
+					<arguments>
+						<argument>-c</argument>
+						<argument>clean</argument>
+					</arguments>
+			 </configuration>
+			</plugin>
 		</plugins>
 	</build>
 </project>
